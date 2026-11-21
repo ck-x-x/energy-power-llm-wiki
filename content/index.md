@@ -2,7 +2,6 @@
 title: Energy & Power LLM Wiki
 ---
 
-# Energy & Power LLM Wiki
 
 這是一個以 **Karpathy LLM Wiki 模式**建置的能源工程與電力技術知識庫。原始論文由人與 LLM Agent 逐篇共讀，並以「增量編譯」的方式整理成互相連結的筆記。目前收錄 5 篇關鍵綜述論文，主題涵蓋：
 
@@ -27,7 +26,7 @@ title: Energy & Power LLM Wiki
 | **Methods** | `methods/` | 技術路線、製程、拓撲與方法比較 |
 | **Synthesis** | `synthesis/` | 跨論文整合比較、觀點衝突與商業化評估 |
 
-閱讀順序建議：先從下方兩個 **Synthesis 樞紐頁**掌握全貌，再沿著 `[[Wikilinks]]` 深入個別概念與方法，最後回到 Sources 查核原文數據。右側的**關係圖（Graph View）**顯示所有筆記之間的連結。
+閱讀順序建議：先從下方兩個 **Synthesis 樞紐頁**掌握全貌，再沿著 `[[Wikilinks]]` 深入個別概念與方法，最後回到 Sources 查核原文數據。右側的<strong>關係圖（Graph View）</strong>顯示所有筆記之間的連結。
 
 ---
 

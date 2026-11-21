@@ -34,8 +34,8 @@ updated: 2026-11-21
 
 ## 1. 核心貢獻（TL;DR）
 
-1. **全球資源量收斂與可採性辨析**：梳理 1973–2014 年間的全球 [[Natural Gas Hydrates (NGH)|天然氣水合物（NGH）]] 資源估算演進——共識值由 1990 年代的 `20,000 TCM` 下修至近年的 `3,000 TCM`（Table 1 範圍 `1,000–5,000 TCM`，技術可採資源約 `300 TCM`），仍遠高於常規天然氣（`404 TCM`）與頁岩氣（`204–456 TCM`）；同時指出僅有高滲透率、高飽和度的**砂岩儲層（Sand Reservoirs）**具短期開採經濟性。
-2. **系統評估四大開採技術與尺度瓶頸**：對比熱激法、降壓法、化學抑制劑注入與複合開採法（詳見 [[Conventional NGH Dissociation Methods]]），點出**實驗室尺度受限於傳熱（Heat Transfer），而實場大儲層受限於滲透率與流體流動（Flow Factors）**的關鍵尺度差異。
+1. **全球資源量收斂與可採性辨析**：梳理 1973–2014 年間的全球 [[Natural Gas Hydrates (NGH)|天然氣水合物（NGH）]] 資源估算演進——共識值由 1990 年代的 `20,000 TCM` 下修至近年的 `3,000 TCM`（Table 1 範圍 `1,000–5,000 TCM`，技術可採資源約 `300 TCM`），仍遠高於常規天然氣（`404 TCM`）與頁岩氣（`204–456 TCM`）；同時指出僅有高滲透率、高飽和度的<strong>砂岩儲層（Sand Reservoirs）</strong>具短期開採經濟性。
+2. **系統評估四大開採技術與尺度瓶頸**：對比熱激法、降壓法、化學抑制劑注入與複合開採法（詳見 [[Conventional NGH Dissociation Methods]]），點出<strong>實驗室尺度受限於傳熱（Heat Transfer），而實場大儲層受限於滲透率與流體流動（Flow Factors）</strong>的關鍵尺度差異。
 3. **深度解析 $\text{CH}_4$–$\text{CO}_2$ 置換與碳中和閉環**：系統回顧 [[CH4-CO2 Hydrate Exchange Process|$\text{CH}_4$–$\text{CO}_2$ 置換法]] 的熱力學自持優勢（$\text{CO}_2$ 生成放熱 `-57.98 kJ/mol` 大於 $\text{CH}_4$ 分解散熱 `+54.49 kJ/mol`），以及固相擴散層造成典型回收率低於 `40%` 的傳質瓶頸。
 4. **全球現場試驗總結與商業化經濟門檻（本次共讀重點）**：彙整 Messoyakha、Mt. Elbert、Mallik、Ignik Sikumi 與 Nankai Trough 等實場試驗成果（詳見 [[NGH Field Trials and Commercialization Comparison]]），指出商業化前須達成 **`20,000–30,000 m³/d` 持續約 2 個月**的穩產測試，且突破關鍵在於**出砂管理（Sand Management）、產水處理、地質力學穩定性與環境風險控管**。
 
@@ -127,5 +127,5 @@ updated: 2026-11-21
 > - **Collett & Ginsburg (1998)**：指出該氣田實際產水量比水合物分解理論產水量低了**至少 3 個數量級**，因此質疑產氣是否真源於水合物層。
 
 > [!warning] 觀點衝突 / 條件差異：實驗室與實場儲層的主控瓶頸不同
-> - **實驗室尺度研究**：多數降壓實驗（如 `0.1–8.4 MPa` 小型反應釜）顯示**傳熱（Heat Transfer）**與分解動力學是產氣速率的主控因子。
-> - **大尺度儲層數值模擬**：如 `TOUGH-Fx/Hydrate` 與三維多相流模擬指出，在實場尺度下水合物分解動力學影響甚微，**地層滲透率與流體流動特性（Flow Factors）**才是決定性瓶頸。
+> - **實驗室尺度研究**：多數降壓實驗（如 `0.1–8.4 MPa` 小型反應釜）顯示<strong>傳熱（Heat Transfer）</strong>與分解動力學是產氣速率的主控因子。
+> - **大尺度儲層數值模擬**：如 `TOUGH-Fx/Hydrate` 與三維多相流模擬指出，在實場尺度下水合物分解動力學影響甚微，<strong>地層滲透率與流體流動特性（Flow Factors）</strong>才是決定性瓶頸。

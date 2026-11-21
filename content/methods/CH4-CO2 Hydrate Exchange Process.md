@@ -32,7 +32,7 @@ $\text{CH}_4$–$\text{CO}_2$ 客體置換法是將 $\text{CO}_2$（或含 $\tex
 
 > [!warning] 觀點衝突 / 條件差異：理想模擬 vs. 真實儲層的熱力學與動力學落差
 > - **理想分子動力學（MD）**：Yezdimer et al. (2002) 在純水、純氣、完全飽和水合物條件下計算置換吉布斯自由能 $\Delta G \approx -12\ \text{kJ/mol}$，證明熱力學自發。
-> - **實地非理想條件與 sII 混合氣**：真實儲層含多孔介質、鹽水與非完全飽和狀態；且若天然氣含 `0.5 mol%` 丙烷形成 sII 水合物，其穩定度大幅逼近 $\text{CO}_2$ 水合物。不過 Raman / PXRD 研究顯示，透過營造富 $\text{CO}_2$ 氣相造成的**化學非平衡（Chemical Disequilibrium）**仍可於 `10 h` 內驅動置換。
+> - **實地非理想條件與 sII 混合氣**：真實儲層含多孔介質、鹽水與非完全飽和狀態；且若天然氣含 `0.5 mol%` 丙烷形成 sII 水合物，其穩定度大幅逼近 $\text{CO}_2$ 水合物。不過 Raman / PXRD 研究顯示，透過營造富 $\text{CO}_2$ 氣相造成的<strong>化學非平衡（Chemical Disequilibrium）</strong>仍可於 `10 h` 內驅動置換。
 
 ---
 

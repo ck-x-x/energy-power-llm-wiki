@@ -18,7 +18,7 @@ updated: 2026-11-21
 
 # Integrated Energy Storage, Hydrogen, PtG and NGH Commercialization Comparison
 
-本頁整合知識庫全五篇核心綜述論文，從**「時間尺度與效率光譜」**、**「關鍵實場／示範工程里程碑」**與**「商業化經濟門檻與系統瓶頸」**三個維度，串聯電能儲存（EES）、氫能產儲、再生能源電轉氣（PtG）與非常規天然氣水合物（NGH）在能源轉型中的系統定位。
+本頁整合知識庫全五篇核心綜述論文，從<strong>「時間尺度與效率光譜」</strong>、<strong>「關鍵實場／示範工程里程碑」</strong>與<strong>「商業化經濟門檻與系統瓶頸」</strong>三個維度，串聯電能儲存（EES）、氫能產儲、再生能源電轉氣（PtG）與非常規天然氣水合物（NGH）在能源轉型中的系統定位。
 
 - 來源論文：
   1. [[Overview of Electrical Energy Storage Technologies (2015)]]（Luo et al., *Applied Energy* 2015）

@@ -23,7 +23,7 @@ updated: 2026-11-21
 
 Dawood et al. (2020) 提出將氫能系統視為四個互依角點，並強制納入兩大跨角子系統：
 - **四角**：生產（Production）↔ 儲存（Storage）↔ 安全（Safety）↔ 應用（Utilisation）。
-- **橫跨子系統**：**純化（Purification）**與**壓縮（Compression）**——兩者的 Capex、Opex、能耗與回收率折損常被傳統 TEA 遺漏，卻直接決定化石／生質產氫接入燃料電池時的真實經濟性。
+- **橫跨子系統**：<strong>純化（Purification）</strong>與**壓縮（Compression）**——兩者的 Capex、Opex、能耗與回收率折損常被傳統 TEA 遺漏，卻直接決定化石／生質產氫接入燃料電池時的真實經濟性。
 
 ---
 

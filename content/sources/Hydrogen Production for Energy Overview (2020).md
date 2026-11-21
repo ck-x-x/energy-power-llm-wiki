@@ -31,7 +31,7 @@ updated: 2026-11-21
 
 ## 1. 核心貢獻（TL;DR）
 
-1. **氫能方形生命週期模型（Hydrogen Square, HydS）**：提出涵蓋**生產（Production）、儲存（Storage）、安全（Safety）、應用（Utilisation）**四角的整合系統模型，並將**純化（Purification）與壓縮（Compression）**列為橫跨各角的關鍵子系統，補齊過往 300 餘篇文獻各自為政的缺口。
+1. **氫能方形生命週期模型（Hydrogen Square, HydS）**：提出涵蓋<strong>生產（Production）、儲存（Storage）、安全（Safety）、應用（Utilisation）</strong>四角的整合系統模型，並將<strong>純化（Purification）與壓縮（Compression）</strong>列為橫跨各角的關鍵子系統，補齊過往 300 餘篇文獻各自為政的缺口。
 2. **三層級產氫途徑分類與成熟度（TML 1–10）**：依「輸入能源型態 → 含氫原料（烴類 H / 非烴類 N）→ 技術／催化劑」系統評估 11 大類產氫路徑的轉換效率、潔淨度（C / N / CCS）與整合技術成熟度（TML 1–10，融合 NASA TRL 1–9 與 ARENA CRI 1–6）。
 3. **將純度標準與純化成本納入技術經濟評估**：強調燃料電池（PEMFC）要求嚴苛純度（ISO 14687-2 Grade D / SAE J2719：`> 99.97%`、$\text{CO} \le 0.2\ \text{ppm}$、總硫 $\le 0.004\ \text{ppm}$），而不同純化技術（如 PSA 回收率僅 `46–85%` vs. 鈀膜 `99%`）直接左右產氫路徑的真實成本與回收率。
 4. **提出氫能潔淨度指數（Hydrogen Cleanness Index, HCI）**：批判傳統「灰氫／藍氫／綠氫」離散色彩標籤僅代表能源來源而非真實全生命週期碳排，提出連續光譜百分比搭配 **4 層評估深度（Scope 1 直接碳排 → Scope 4 純化碳排）** 的量化框架（例如 `75 Green-2`）。
