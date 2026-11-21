@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>能源轉型全鏈條工程解析：儲電、氫能、電轉氣與天然氣水合物</title>
+  <!-- Google Fonts (optional CDN with graceful fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <!-- KaTeX CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-base: #070d19;
+      --bg-surface: #0f172a;
+      --bg-card: #131f36;
+      --bg-card-alt: #182642;
+      --border: rgba(148, 163, 184, 0.18);
+      --border-strong: rgba(56, 189, 248, 0.42);
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --cyan: #38bdf8;
+      --cyan-soft: rgba(56, 189, 248, 0.14);
+      --amber: #f59e0b;
+      --amber-soft: rgba(245, 158, 11, 0.14);
+      --emerald: #10b981;
+      --emerald-soft: rgba(16, 185, 129, 0.14);
+      --red: #ef4444;
+      --red-soft: rgba(239, 68, 68, 0.14);
+      --violet: #a78bfa;
+      --violet-soft: rgba(167, 139, 250, 0.14);
+      --font-sans: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(circle at 12% 14%, rgba(56, 189, 248, 0.08), transparent 36%),
+        radial-gradient(circle at 88% 82%, rgba(16, 185, 129, 0.07), transparent 38%),
+        linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Progress Bar */
+    .progress-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(148, 163, 184, 0.15);
+      z-index: 60;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 8.33%;
+      background: linear-gradient(90deg, var(--cyan), var(--emerald));
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+    }
+
+    /* Top Control Bar */
+    .topbar {
+      position: fixed;
+      top: 12px;
+      left: 20px;
+      right: 20px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .topbar-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: auto;
+    }
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.88);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+    }
+    .icon-btn:hover {
+      border-color: var(--cyan);
+      color: var(--text-primary);
+      background: rgba(19, 31, 54, 0.95);
+    }
+    .page-counter {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    /* Collapsible TOC Drawer */
+    .toc-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 310px;
+      background: rgba(10, 17, 32, 0.97);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      z-index: 70;
+      transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 16px;
+    }
+    .toc-drawer.open { transform: translateX(0); }
+    .toc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .toc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .toc-list {
+      list-style: none;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .toc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--text-secondary);
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+    }
+    .toc-item:hover {
+      background: rgba(56, 189, 248, 0.08);
+      color: var(--text-primary);
+    }
+    .toc-item.active {
+      background: var(--cyan-soft);
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .toc-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--cyan);
+      min-width: 22px;
+      padding-top: 2px;
+    }
+    .toc-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.55);
+      z-index: 65;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .toc-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Deck & Slide Stage */
+    .deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 64px 36px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide {
+      position: absolute;
+      inset: 64px 36px 56px;
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      padding: 28px 36px 18px;
+      opacity: 0;
+      transform: translateY(14px) scale(0.99);
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      overflow: hidden;
+    }
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+      flex-shrink: 0;
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 5px;
+    }
+    .slide-title {
+      font-size: clamp(22px, 2.3vw, 31px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+    .slide-subtitle {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      max-width: 440px;
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .slide-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .slide-body::-webkit-scrollbar { width: 6px; }
+    .slide-body::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.25);
+      border-radius: 999px;
+    }
+
+    .slide-footer {
+      flex-shrink: 0;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      gap: 12px;
+    }
+    .source-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #7dd3fc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Bottom Navigation Controls */
+    .bottom-nav {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 50;
+    }
+    .nav-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-primary);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover:not(:disabled) {
+      border-color: var(--cyan);
+      background: var(--cyan-soft);
+      color: var(--cyan);
+    }
+    .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .kbd-hint {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 0 8px;
+    }
+
+    /* Grids & Cards */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .grid-12 { display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; }
+    .grid-21 { display: grid; grid-template-columns: 1fr 1.25fr; gap: 16px; }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card.accent-cyan { border-top: 3px solid var(--cyan); }
+    .card.accent-amber { border-top: 3px solid var(--amber); }
+    .card.accent-emerald { border-top: 3px solid var(--emerald); }
+    .card.accent-red { border-top: 3px solid var(--red); }
+    .card.accent-violet { border-top: 3px solid var(--violet); }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card p, .card li {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+    }
+    .card ul { padding-left: 18px; display: flex; flex-direction: column; gap: 5px; }
+
+    /* Badges & KPIs */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge.cyan { background: var(--cyan-soft); color: var(--cyan); border: 1px solid rgba(56,189,248,0.3); }
+    .badge.amber { background: var(--amber-soft); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+    .badge.emerald { background: var(--emerald-soft); color: var(--emerald); border: 1px solid rgba(16,185,129,0.3); }
+    .badge.red { background: var(--red-soft); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+    .badge.violet { background: var(--violet-soft); color: var(--violet); border: 1px solid rgba(167,139,250,0.3); }
+
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--cyan);
+      line-height: 1.15;
+    }
+    .kpi-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Callouts */
+    .callout {
+      padding: 12px 15px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      border-left: 3px solid var(--cyan);
+      background: rgba(56, 189, 248, 0.08);
+    }
+    .callout.warn {
+      border-left-color: var(--amber);
+      background: rgba(245, 158, 11, 0.09);
+    }
+    .callout.good {
+      border-left-color: var(--emerald);
+      background: rgba(16, 185, 129, 0.09);
+    }
+    .callout strong { color: var(--text-primary); }
+
+    /* Equations Box */
+    .eq-box {
+      background: rgba(7, 13, 25, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      text-align: center;
+      overflow-x: auto;
+      color: #e0f2fe;
+      font-size: 14px;
+    }
+
+    /* Tables */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: rgba(7, 13, 25, 0.5);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    th {
+      text-align: left;
+      padding: 9px 11px;
+      background: rgba(30, 41, 59, 0.85);
+      color: var(--cyan);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 8px 11px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      color: var(--text-secondary);
+      line-height: 1.4;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(56, 189, 248, 0.05); }
+    .mono { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); }
+
+    /* Tabs & Filter Pills */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .tab-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover { border-color: var(--cyan); color: var(--text-primary); }
+    .tab-btn.active {
+      background: var(--cyan-soft);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .tab-panel { display: none; flex-direction: column; gap: 12px; }
+    .tab-panel.active { display: flex; }
+
+    /* Chart Container */
+    .chart-box {
+      position: relative;
+      background: rgba(7, 13, 25, 0.65);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      height: 290px;
+      width: 100%;
+    }
+    .chart-box.tall { height: 340px; }
+    .chart-box.short { height: 235px; }
+
+    /* Hero Cover Slide */
+    .hero-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      padding: 10px 8px;
+    }
+    .hero-title {
+      font-size: clamp(30px, 3.6vw, 48px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      background: linear-gradient(120deg, #f8fafc 15%, #38bdf8 55%, #10b981 95%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lead {
+      font-size: 16.5px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 880px;
+    }
+
+    /* SVG Container */
+    .svg-box {
+      background: rgba(7, 13, 25, 0.72);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .svg-box svg { width: 100%; height: auto; max-height: 360px; }
+
+    /* Responsive adjustments */
+    @media (max-width: 960px) {
+      .deck { padding: 58px 12px 52px; }
+      .slide { inset: 58px 12px 52px; padding: 18px 18px 14px; }
+      .grid-2, .grid-3, .grid-4, .grid-12, .grid-21 { grid-template-columns: 1fr; }
+      .slide-subtitle { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-group">
+      <button class="icon-btn" id="tocToggleBtn" title="開啟目錄 (T)">☰ 目錄</button>
+      <div class="brand-pill"><span class="brand-dot"></span>Energy &amp; Power LLM Wiki Deck</div>
+    </div>
+    <div class="topbar-group">
+      <span class="page-counter" id="pageCounter">01 / 12</span>
+      <button class="icon-btn" id="fsBtn" title="全螢幕切換 (F)">⛶ 全螢幕</button>
+    </div>
+  </header>
+
+  <!-- TOC Drawer -->
+  <div class="toc-backdrop" id="tocBackdrop"></div>
+  <aside class="toc-drawer" id="tocDrawer">
+    <div class="toc-header">
+      <span class="toc-title">簡報目錄 (12 Slides)</span>
+      <button class="icon-btn" id="tocCloseBtn">✕</button>
+    </div>
+    <ul class="toc-list" id="tocList"></ul>
+  </aside>
+
+  <!-- Deck -->
+  <main class="deck" id="deck">
+
+    <!-- SLIDE 1: COVER -->
+    <section class="slide active" data-title="封面：能源轉型全鏈條工程解析">
+      <div class="hero-wrap">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="badge cyan">Energy Engineering &amp; Power Technology</span>
+          <span class="badge emerald">5-Paper Synthesized LLM Wiki</span>
+          <span class="badge amber">Field Trials &amp; Commercialization Focus</span>
+        </div>
+        <h1 class="hero-title">能源轉型全鏈條工程解析：<br/>儲電、氫能、電轉氣與天然氣水合物</h1>
+        <p class="hero-lead">
+          從毫秒級電網穩定到跨季節化學儲能，系統剖析電能儲存（EES）、電解產氫與純度潔淨度標準、固態儲氫、再生能源電轉氣（PtG-SNG）及非常規天然氣水合物（NGH）的核心物理機制、全球指標實場試驗與商業化經濟瓶頸。
+        </p>
+        <div class="grid-4">
+          <div class="card accent-cyan">
+            <div class="kpi-value">&gt; 99%</div>
+            <div class="kpi-label">全球大型儲電仍由抽蓄水力（127–129 GW）主導；季節儲能尚無商用 EES</div>
+          </div>
+          <div class="card accent-emerald">
+            <div class="kpi-value">4–5%</div>
+            <div class="kpi-label">再生能源水電解佔全球產氫比例（總量 8,500 萬噸/年）</div>
+          </div>
+          <div class="card accent-amber">
+            <div class="kpi-value">55% / 3,600+ TWh</div>
+            <div class="kpi-label">PtG-SNG 基準全鏈效率，可無縫接入全球既有地下儲氣庫</div>
+          </div>
+          <div class="card accent-violet">
+            <div class="kpi-value">120,000 m³</div>
+            <div class="kpi-label">日本南海海槽海域 NGH 降壓 6 天產氣量（商轉需穩產 2 個月）</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>對象：進階學習者與能源／電力工程師 · 按鍵盤 ← / → 翻頁 · 按 T 開啟目錄</span>
+        <span class="source-tag">Sources: Luo (2015) · Chong (2016) · Götz (2016) · Abe (2019) · Dawood (2020)</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: SYSTEM ARCHITECTURE -->
+    <section class="slide" data-title="系統藍圖：為何沒有單一技術通吃全時間尺度？">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">01 · System Architecture &amp; Sector Coupling</div>
+          <h2 class="slide-title">系統藍圖：為何必須多尺度耦合五條技術鏈？</h2>
+        </div>
+        <div class="slide-subtitle">單一儲能技術無法同時兼顧毫秒響應、高循環效率與跨季節超大容量。</div>
+      </div>
+      <div class="slide-body">
+        <div class="svg-box">
+          <svg viewBox="0 0 1180 320" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Noto Sans TC, sans-serif">
+            <defs>
+              <marker id="arrCyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,1 L9,5 L0,9 z" fill="#38bdf8"/>
+              </marker>
+              <marker id="arrEmerald" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,1 L9,5 L0,9 z" fill="#10b981"/>
+              </marker>
+              <marker id="arrAmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,1 L9,5 L0,9 z" fill="#f59e0b"/>
+              </marker>
+              <marker id="arrViolet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,1 L9,5 L0,9 z" fill="#a78bfa"/>
+              </marker>
+            </defs>
+
+            <!-- Layer 1: VRE -->
+            <rect x="18" y="34" width="165" height="106" rx="12" fill="#131f36" stroke="#38bdf8" stroke-width="1.8"/>
+            <text x="100" y="64" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">間歇性再生能源</text>
+            <text x="100" y="86" text-anchor="middle" fill="#f8fafc" font-size="12">Wind / Solar PV</text>
+            <text x="100" y="106" text-anchor="middle" fill="#94a3b8" font-size="11">丹麥風電 34% / 德國剩餘</text>
+            <text x="100" y="122" text-anchor="middle" fill="#94a3b8" font-size="11">負載 30–60 GW</text>
+
+            <!-- Layer 2: Short/Med EES -->
+            <rect x="230" y="16" width="220" height="142" rx="12" fill="#131f36" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="340" y="42" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">電能儲存 EES（Luo 2015）</text>
+            <text x="340" y="64" text-anchor="middle" fill="#f8fafc" font-size="11.5">• ms–min：SMES / 超級電容 / 飛輪</text>
+            <text x="340" y="84" text-anchor="middle" fill="#f8fafc" font-size="11.5">• min–h：Li-ion / NaS / VRB</text>
+            <text x="340" y="104" text-anchor="middle" fill="#f8fafc" font-size="11.5">• h–days：PHS / CAES / LAES</text>
+            <rect x="248" y="118" width="184" height="28" rx="6" fill="rgba(239,68,68,0.16)" stroke="#ef4444" stroke-width="1"/>
+            <text x="340" y="136" text-anchor="middle" fill="#fca5a5" font-size="11" font-weight="600">缺口：尚無商用季節儲能 EES</text>
+
+            <!-- Layer 3: Electrolysis + Purity -->
+            <rect x="502" y="16" width="215" height="142" rx="12" fill="#131f36" stroke="#10b981" stroke-width="1.6"/>
+            <text x="610" y="42" text-anchor="middle" fill="#10b981" font-size="13" font-weight="700">電解產氫與儲氫</text>
+            <text x="610" y="62" text-anchor="middle" fill="#94a3b8" font-size="11">(Dawood 2020 · Abe 2019)</text>
+            <text x="610" y="84" text-anchor="middle" fill="#f8fafc" font-size="11.5">AEL (62–82%) / PEM / SOEC</text>
+            <text x="610" y="104" text-anchor="middle" fill="#f8fafc" font-size="11.5">純度 ≥99.97% · HCI 碳排光譜</text>
+            <text x="610" y="124" text-anchor="middle" fill="#f8fafc" font-size="11.5">儲氫：35–70 MPa / 鹽穴 / MgH₂</text>
+            <text x="610" y="144" text-anchor="middle" fill="#fbbf24" font-size="11">管網直摻上限僅 0–12 vol.%</text>
+
+            <!-- Layer 4: PtG Methanation -->
+            <rect x="768" y="16" width="195" height="142" rx="12" fill="#131f36" stroke="#f59e0b" stroke-width="1.6"/>
+            <text x="865" y="42" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="700">Power-to-Gas (PtG)</text>
+            <text x="865" y="62" text-anchor="middle" fill="#94a3b8" font-size="11">(Götz 2016)</text>
+            <text x="865" y="84" text-anchor="middle" fill="#f8fafc" font-size="11.5">CO₂ + 4H₂ ⇌ CH₄ + 2H₂O</text>
+            <text x="865" y="104" text-anchor="middle" fill="#f8fafc" font-size="11.5">催化固定床 / 生物甲烷化</text>
+            <text x="865" y="124" text-anchor="middle" fill="#10b981" font-size="11.5" font-weight="700">全鏈效率 55% (70% × 78%)</text>
+            <text x="865" y="144" text-anchor="middle" fill="#94a3b8" font-size="11">碳源：沼氣廠 / BtG+PtG</text>
+
+            <!-- Layer 5: Gas Grid -->
+            <rect x="1005" y="34" width="158" height="106" rx="12" fill="#182642" stroke="#38bdf8" stroke-width="1.8"/>
+            <text x="1084" y="62" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">既有天然氣管網</text>
+            <text x="1084" y="84" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="800">&gt; 3,600 TWh</text>
+            <text x="1084" y="104" text-anchor="middle" fill="#cbd5e1" font-size="11">跨季節地下儲氣庫</text>
+            <text x="1084" y="122" text-anchor="middle" fill="#94a3b8" font-size="11">供熱 · 發電 · 交通</text>
+
+            <!-- Bottom Layer: NGH & CO2 Exchange -->
+            <rect x="502" y="198" width="460" height="102" rx="12" fill="#131f36" stroke="#a78bfa" stroke-width="1.6"/>
+            <text x="732" y="224" text-anchor="middle" fill="#a78bfa" font-size="13.5" font-weight="700">非常規過渡氣源：天然氣水合物 NGH（Chong 2016）</text>
+            <text x="732" y="246" text-anchor="middle" fill="#f8fafc" font-size="12">全球共識 3,000 TCM（技術可採 ~300 TCM）· 降壓 / 複合開採 / CH₄–CO₂ 固相置換</text>
+            <text x="732" y="266" text-anchor="middle" fill="#cbd5e1" font-size="11.5">電廠煙道氣 CO₂ 直接置換 → 省 US$ 35–75/t 捕集費 + 固態封碳 + 穩固海床</text>
+            <text x="732" y="286" text-anchor="middle" fill="#fbbf24" font-size="11">過渡定位：2025–2030 陸上商轉 · 2030+ 亞洲海域商轉（門檻：20k–30k m³/d × 2 月）</text>
+
+            <!-- CO2 Source Box -->
+            <rect x="230" y="210" width="220" height="78" rx="10" fill="#131f36" stroke="#f59e0b" stroke-dasharray="5 4" stroke-width="1.3"/>
+            <text x="340" y="236" text-anchor="middle" fill="#f59e0b" font-size="12.5" font-weight="700">生質／工業 CO₂ 碳循環</text>
+            <text x="340" y="256" text-anchor="middle" fill="#cbd5e1" font-size="11">沼氣 (30–50% CO₂) · 生質氣化</text>
+            <text x="340" y="274" text-anchor="middle" fill="#94a3b8" font-size="11">電廠煙道氣 (23% CO₂ / 77% N₂)</text>
+
+            <!-- Connectors -->
+            <line x1="183" y1="87" x2="224" y2="87" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrCyan)"/>
+            <line x1="450" y1="87" x2="496" y2="87" stroke="#10b981" stroke-width="2" marker-end="url(#arrEmerald)"/>
+            <line x1="717" y1="87" x2="762" y2="87" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrAmber)"/>
+            <line x1="963" y1="87" x2="999" y2="87" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrCyan)"/>
+
+            <!-- CO2 to PtG and NGH -->
+            <path d="M 340 210 L 340 176 L 865 176 L 865 162" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrAmber)"/>
+            <line x1="450" y1="249" x2="496" y2="249" stroke="#a78bfa" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#arrViolet)"/>
+            <!-- NGH to Gas Grid -->
+            <path d="M 962 249 L 1084 249 L 1084 146" fill="none" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrViolet)"/>
+            <text x="1032" y="240" fill="#c4b5fd" font-size="11" font-weight="600">CH₄ 供給</text>
+          </svg>
+        </div>
+        <div class="grid-3">
+          <div class="callout"><strong>電網層（ms → 天）</strong>：高效率 EES 承擔調頻、平滑與日內削峰，但地理與成本限制使其無法跨季。</div>
+          <div class="callout good"><strong>分子載體層（週 → 季）</strong>：綠氫與 PtG-SNG 將電能轉為高密度化學鍵，借力既有天然氣基礎設施。</div>
+          <div class="callout warn"><strong>過渡氣源與固碳</strong>：NGH 與 CO₂ 置換同時回應低碳過渡期氣源需求與地質封碳經濟性。</div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>五篇綜述形成「短時儲電 → 電解產儲氫 → 電轉氣跨季 → 水合物過渡與固碳」閉環</span>
+        <span class="source-tag">Source: [[Integrated Energy Storage, Hydrogen, PtG and NGH Commercialization Comparison]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: EES SPECTRUM -->
+    <section class="slide" data-title="電能儲存（EES）六大分類與效能光譜">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">02 · Electrical Energy Storage (Luo et al., 2015)</div>
+          <h2 class="slide-title">電能儲存（EES）六大分類與效率／成本光譜</h2>
+        </div>
+        <div class="slide-subtitle">高效率短時技術能量成本極高；低能量成本技術往返效率受限。</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-12">
+          <div class="chart-box tall">
+            <canvas id="eesChart"></canvas>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div class="card accent-cyan">
+              <div class="card-title">三大電網服務時間尺度 <span class="badge cyan">21 項應用配對</span></div>
+              <ul>
+                <li><strong>電能品質（ms–s）</strong>：SMES（95–98%）、超級電容（84–97%）、飛輪（90–95%）——響應 &lt; 1/4 cycle，但自放電極高（飛輪 ≥20%/h）。</li>
+                <li><strong>橋接與日內調度（min–h）</strong>：鋰電（75–97%）、NaS（75–90%, 574–624 K）、全釩液流 VRB（65–85%, 10k–16k+ 循環、功率/能量解耦）。</li>
+                <li><strong>大型能量管理（h–days）</strong>：PHS（70–85%, 100–5,000 MW）與 CAES（42–54%, AA-CAES 目標 ~70%），受地形與地下鹽穴嚴格限制。</li>
+              </ul>
+            </div>
+            <div class="callout warn">
+              <strong>關鍵現實（Luo et al., 2015）</strong>：低單位能量成本不等於低全生命週期成本（例如鉛酸雖 50–600 $/kWh，但僅 500–2,000 循環且 O&amp;M ~50 $/kW/yr）；且<strong>季節性儲能（30–500 MW、數週至數月）尚無任何商業化 EES</strong>。
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>圖表為 Luo et al. (2015) Table 10 &amp; 12 實測中位數（滑鼠移上可檢視完整文獻區間）</span>
+        <span class="source-tag">Source: [[Overview of Electrical Energy Storage Technologies (2015)]] · [[Electrical Energy Storage (EES) Classification]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: HYDROGEN PRODUCTION, PURITY & HCI -->
+    <section class="slide" data-title="產氫路徑、純度硬約束與潔淨度指數（HCI）">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">03 · Hydrogen Production &amp; Lifecycle Standards (Dawood et al., 2020)</div>
+          <h2 class="slide-title">產氫路徑、純度硬約束與氫能潔淨度指數（HCI）</h2>
+        </div>
+        <div class="slide-subtitle">HydS 方形模型：忽略純化與壓縮子系統將嚴重低估真實產氫成本與碳排。</div>
+      </div>
+      <div class="slide-body">
+        <div class="tabs" data-tab-group="s4">
+          <button class="tab-btn active" data-tab="s4-pathways">1. 主要產氫路徑與 TML 成熟度</button>
+          <button class="tab-btn" data-tab="s4-purity">2. PEMFC 純度標準與純化回收權衡</button>
+          <button class="tab-btn" data-tab="s4-hci">3. 為何 HCI 取代灰／藍／綠標籤？</button>
+        </div>
+
+        <!-- Panel 1 -->
+        <div class="tab-panel active" id="s4-pathways">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>產氫路徑</th><th>能源輸入</th><th>原料</th><th>轉換效率 (%)</th><th>潔淨度</th><th>整合 TML (1–10)</th><th>系統定位</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>蒸汽重組（SR / SMR）</strong></td><td>熱能</td><td>化石燃料 (H)</td><td class="mono">60–85</td><td><span class="badge amber">N / CCS</span></td><td class="mono">10</td><td>現行工業主力（佔全球 ~95–96% 化石源）</td></tr>
+                <tr><td><strong>煤炭氣化</strong></td><td>熱能</td><td>煤 (H)</td><td class="mono">74–85</td><td><span class="badge amber">N / CCS</span></td><td class="mono">10</td><td>高碳排，須配 CCS 與深度脫硫</td></tr>
+                <tr><td><strong>鹼性電解（AE）</strong></td><td>電能</td><td>水 (N)</td><td class="mono">62–82</td><td><span class="badge emerald">C</span></td><td class="mono">9–10</td><td>最成熟綠氫路徑；無 COₓ/SOₓ 雜質</td></tr>
+                <tr><td><strong>質子交換膜（PEM）</strong></td><td>電能</td><td>水 (N)</td><td class="mono">67–84</td><td><span class="badge emerald">C</span></td><td class="mono">7–9</td><td>高動態響應，適合耦合間歇再生能源</td></tr>
+                <tr><td><strong>固態氧化物（SOC）</strong></td><td>電 + 熱</td><td>水 (N)</td><td class="mono">75–90</td><td><span class="badge emerald">C</span></td><td class="mono">3–5</td><td>高溫高效，但材料劣化仍在研發</td></tr>
+                <tr><td><strong>生質氣化 / 暗發酵</strong></td><td>熱 / 生質</td><td>生質 (H)</td><td class="mono">35–50 / 60–80</td><td><span class="badge red">N</span></td><td class="mono">8–10 / 3–5</td><td>含 CO₂/CO 雜質，需昂貴純化方能供 PEMFC</td></tr>
+                <tr><td><strong>新興：Battolyser / URFC</strong></td><td>電能</td><td>水 (N)</td><td class="mono">76–90 / 43–51*</td><td><span class="badge cyan">C</span></td><td class="mono">新興研發</td><td>結合儲電與產氫（*URFC 為往返效率）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout"><strong>系統現況</strong>：2016 年全球工業產氫 <strong>8,500 萬噸</strong>（&gt; 6,000 億 Nm³/yr），再生能源水電解僅佔 <strong>4–5%</strong>；氨分解歸類為儲運介質而非一次產氫途徑。</div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="tab-panel" id="s4-purity">
+          <div class="grid-2">
+            <div class="card accent-red">
+              <div class="card-title">PEMFC 雜質毒化上限 <span class="badge red">ISO 14687-2 / SAE J2719</span></div>
+              <p>車用燃料電池要求乾燥基準純度 <strong>≥ 99.97%</strong>，微量化學毒物即可癱瘓 Pt 陽極觸媒：</p>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>污染物</th><th>上限</th><th>污染物</th><th>上限</th></tr></thead>
+                  <tbody>
+                    <tr><td>總硫（含 H₂S）</td><td class="mono">0.004 ppm</td><td>CO₂ / 總碳氫</td><td class="mono">2 ppm</td></tr>
+                    <tr><td>甲醛 (CH₂O)</td><td class="mono">0.01 ppm</td><td>H₂O / O₂</td><td class="mono">5 ppm</td></tr>
+                    <tr><td>氨 (NH₃)</td><td class="mono">0.1 ppm</td><td>N₂ + Ar</td><td class="mono">100 ppm</td></tr>
+                    <tr><td>CO / 甲酸</td><td class="mono">0.2 ppm</td><td>He</td><td class="mono">300 ppm</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card accent-cyan">
+              <div class="card-title">純化技術：純度 vs. 回收率權衡 <span class="badge cyan">Table 9</span></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>純化技術</th><th>純度 (%)</th><th>回收率 (%)</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>鈀膜（Pd Membrane）</strong></td><td class="mono">99.99999</td><td class="mono">99</td></tr>
+                    <tr><td><strong>變壓吸附（PSA）</strong></td><td class="mono">98–99.999</td><td class="mono">46–85</td></tr>
+                    <tr><td><strong>低溫分離（Cryogenic）</strong></td><td class="mono">95–99.8</td><td class="mono">95</td></tr>
+                    <tr><td><strong>金屬氫化物純化</strong></td><td class="mono">99–99.99</td><td class="mono">75–95</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>關鍵洞察</strong>：PSA 雖能達高純度，卻可能損失超過一半氫氣（回收率低至 46%）；水電解天生不含碳硫氧化物，大幅降低下游純化成本。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="tab-panel" id="s4-hci">
+          <div class="grid-2">
+            <div class="card accent-amber">
+              <div class="card-title">傳統灰／藍／綠標籤的三大盲點</div>
+              <ul>
+                <li>僅標示「能源來源或是否加裝 CCS」，<strong>並非真實碳排指標</strong>。</li>
+                <li>部分再生路徑（生質產氫、再生熱源）仍排放 COₓ、SOₓ、CH₄ 或 NOₓ，並非零碳。</li>
+                <li>藍氫常遺漏上游開採逸散與 CCS 額外能耗；無法分類「化石原料 + 100% 綠電 + CCS」。</li>
+              </ul>
+            </div>
+            <div class="card accent-emerald">
+              <div class="card-title">Hydrogen Cleanness Index (HCI) 雙維框架</div>
+              <ul>
+                <li>以<strong>連續百分比光譜</strong>（如 <span class="mono">75 Green-2</span>）對照文獻綠氫上限 <strong>4.4 kg CO₂-e / kg H₂</strong>。</li>
+                <li><strong>Level 1 (Scope 1)</strong>：產氫直接 CO₂-e 排放。</li>
+                <li><strong>Level 2 (Scope 2)</strong>：外購電／熱間接排放。</li>
+                <li><strong>Level 3 (Scope 3)</strong>：全生命週期 LCA 上下游排放。</li>
+                <li><strong>Level 4 (Scope 4)</strong>：<strong>純化子系統</strong>衍生之 CO₂-e 排放。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>HydS 方形模型強制將純化與壓縮納入技術經濟與 LCA 邊界；逾 70% 氫能事故源於組織與人為因素</span>
+        <span class="source-tag">Source: [[Hydrogen Production for Energy Overview (2020)]] · [[Hydrogen Cleanness Index and Purity Standards]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: ELECTROLYSIS -->
+    <section class="slide" data-title="水電解三大樞紐：AEL vs. PEMEL vs. SOEC">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">04 · Electrolysis Hub (Götz 2016 · Dawood 2020)</div>
+          <h2 class="slide-title">水電解三大樞紐：AEL vs. PEMEL vs. SOEC</h2>
+        </div>
+        <div class="slide-subtitle">電解槽佔 PtG 總 CAPEX 最大宗；動態響應與壽命決定其電網耦合能力。</div>
+      </div>
+      <div class="slide-body">
+        <div class="eq-box">
+          $$\text{H}_2\text{O(l)} \rightarrow \text{H}_2\text{(g)} + \tfrac{1}{2}\text{O}_2\text{(g)} \quad (\Delta H_r^0 = +285.8\ \text{kJ/mol}), \qquad \Delta G_r^0 = n F E_V^0 = +237.1\ \text{kJ/mol}$$
+        </div>
+        <div class="grid-3">
+          <div class="card accent-cyan">
+            <div class="card-title">鹼性電解（AEL）<span class="badge cyan">TML 9–10</span></div>
+            <div class="kpi-value">~1,000 €/kW</div>
+            <ul>
+              <li><strong>電解質 / 溫壓</strong>：20–30% KOH/NaOH（OH⁻），40–90 °C，1.8–2.4 V。</li>
+              <li><strong>效率 / 能耗</strong>：62–82%；現況 4.5–8.2 → 未來 4.3–5.7 kWh/m³ H₂。</li>
+              <li><strong>動態與壽命</strong>：負載 20–100%（過載 150%）；冷啟分鐘–小時（重啟 30–60 min）；電堆翻修 7–12 年，<strong>系統壽命達 30 年</strong>。</li>
+              <li><strong>定位</strong>：現階段最成熟、最便宜之商業基準（單機至 ~2.7 MW）。</li>
+            </ul>
+          </div>
+          <div class="card accent-emerald">
+            <div class="card-title">質子交換膜（PEMEL）<span class="badge emerald">TML 7–9</span></div>
+            <div class="kpi-value">5% 最低負載</div>
+            <ul>
+              <li><strong>電解質 / 溫壓</strong>：Nafion 固態膜（H⁺），20–100 °C，1.8–2.2 V。</li>
+              <li><strong>效率 / 能耗</strong>：67–84%；現況 4.5–7.5 → 未來 4.1–4.8 kWh/m³ H₂。</li>
+              <li><strong>動態與壽命</strong>：<strong>秒至分鐘級冷啟動</strong>，最適合劇烈波動的風光電力；壽命 ~5 年（較 AEL 短）。</li>
+              <li><strong>成本趨勢</strong>：2016 時約 ≥ 2× AEL，預測隨規模化降至 1,000–1,250 €/kW。</li>
+            </ul>
+          </div>
+          <div class="card accent-violet">
+            <div class="card-title">固態氧化物（SOEC）<span class="badge violet">TML 3–5</span></div>
+            <div class="kpi-value">75–90%</div>
+            <ul>
+              <li><strong>電解質 / 溫壓</strong>：8 mol% Y₂O₃–ZrO₂ 陶瓷（O²⁻），<strong>800–1,000 °C</strong>，0.91–1.3 V。</li>
+              <li><strong>熱力學紅利</strong>：高溫壓低平衡電壓 $E_V$；吸熱模式理論電效率可 <strong>&gt; 100%</strong>（導入外部廢熱）。</li>
+              <li><strong>瓶頸</strong>：材料快速劣化、不適合間歇波動供電；預測 2030 成本可望下探 1,000 €/kW。</li>
+              <li><strong>定位</strong>：適合穩態耦合放熱化工廠，不適合低利用率純調峰。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout good">
+          <strong>工程設計洞察</strong>：加壓電解雖微幅推升 $E_V$，但省下的下游壓縮能耗大於電效率折損；每產 1 kg H₂ 伴隨 <strong>8 kg O₂</strong>，若能就近供生質氣化或沼氣脫硫可顯著改善經濟性。
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>新興架構：陰離子交換膜 AEM (67–74%) 與 Battolyser 電池電解一體機 (76–90%)</span>
+        <span class="source-tag">Source: [[Water Electrolysis Technologies (AEL, PEM, SOEC)]] · [[Renewable Power-to-Gas Review (2016)]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: HYDROGEN STORAGE & METAL HYDRIDES -->
+    <section class="slide" data-title="儲氫瓶頸與金屬氫化物四大改質工程">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">05 · Hydrogen Storage Engineering (Abe et al., 2019)</div>
+          <h2 class="slide-title">儲氫瓶頸與金屬氫化物四大改質工程</h2>
+        </div>
+        <div class="slide-subtitle">H₂ 質量熱值達 120 MJ/kg（汽油 2.7×），常壓密度卻僅 0.089 kg/m³。</div>
+      </div>
+      <div class="slide-body">
+        <div class="tabs" data-tab-group="s6">
+          <button class="tab-btn active" data-tab="s6-physical">1. 物理儲氫 vs. 固態儲氫對比</button>
+          <button class="tab-btn" data-tab="s6-hydrides">2. MgH₂ 四大改質策略（動力學 vs. 熱力學）</button>
+          <button class="tab-btn" data-tab="s6-doe">3. U.S. DOE 車載儲氫目標</button>
+        </div>
+
+        <div class="tab-panel active" id="s6-physical">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>儲氫路徑</th><th>操作條件</th><th>能耗損耗 / 儲量</th><th>核心工程瓶頸與場景</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>高壓氣態儲氫</strong></td><td class="mono">35–70 MPa</td><td class="mono">壓縮損耗 11–13%</td><td>現行車載與 PtG 緩衝（350–700 bar）主力；CFRP 碳纖瓶昂貴且有高壓安全疑慮</td></tr>
+                <tr><td><strong>地下鹽穴儲氫</strong></td><td class="mono">高壓鹽丘洞穴</td><td class="mono">極低滲透 / 成本最低</td><td>季節性大規模儲能（歐盟 <strong>HyUnder</strong> 羅馬尼亞計畫供複循環發電）；受地質限制</td></tr>
+                <tr><td><strong>低溫液氫 (LH₂)</strong></td><td class="mono">20 K (-252.8 °C)</td><td class="mono">液化損 ~30% · 71 kg/m³ (8 MJ/L)</td><td>持續蒸發（boil-off）與絕熱槽高成本；限航太或短週期高能量密度應用</td></tr>
+                <tr><td><strong>化學氫化物 (如 NaBH₄)</strong></td><td class="mono">常溫催化水解</td><td class="mono">理論 10.8 wt.%</td><td>放熱過大且<strong>不可逆</strong>（需車外再生），不適合車載閉環</td></tr>
+                <tr><td><strong>可逆金屬氫化物</strong></td><td class="mono">3–30 atm</td><td class="mono">LaNi₅ 1.4 wt.% / MgH₂ 7.6 wt.%</td><td>高體積密度、兼具儲熱與高安全；低溫合金太重，高溫 MgH₂ 需 300–400 °C</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="eq-box">
+            $$\text{M} + \frac{x}{2}\text{H}_2 \rightleftharpoons \text{MH}_x + Q \qquad \big(\text{MgH}_2:\ \Delta H = -75\ \text{kJ/mol},\ 7.6\ \text{wt.\%},\ 600\ \text{K @ 1 bar}\big)$$
+          </div>
+        </div>
+
+        <div class="tab-panel" id="s6-hydrides">
+          <div class="grid-2">
+            <div class="card accent-cyan">
+              <div class="card-title">1. 催化（Catalysis）<span class="badge cyan">降活化能</span></div>
+              <p><strong>MgH₂ + Nb₂O₅</strong> 表現最佳（優於 Fe₃O₄ &gt; CeO₂ &gt; ZrO₂）：300 °C 下 <strong>60 s 吸氫 7 wt.%、130 s 放氫</strong>；加 1 mol% Nb₂O₅ 使吸氫 $E_a$ 降至 <strong>38 kJ/mol</strong>（甚至 -50 °C 吸氫），但<strong>不改變熱力學平衡溫度</strong>。</p>
+            </div>
+            <div class="card accent-amber">
+              <div class="card-title">2. 合金化（Alloying）<span class="badge amber">熱力學去穩定</span></div>
+              <p>加 5% V 球磨 20 h 使放氫 $E_a$ 由 120 降至 <strong>62.3 kJ/mol</strong>；<strong>Mg₂Ni</strong> 生成焓降至 -64.5 kJ/mol（3.6 wt.%, 1 bar 放氫溫降至 <strong>245 °C</strong>）；Cu₂Mg 降至 240 °C。</p>
+            </div>
+            <div class="card accent-violet">
+              <div class="card-title">3. 奈米結構化（Ball Milling）<span class="badge violet">破除鈍化層</span></div>
+              <p>高能球磨破壞表面氧化鈍化層（SPL）、縮短氫擴散路徑；量子力學計算指出 <strong>~0.9 nm</strong> MgH₂ 團簇可降低放氫焓並於 <strong>200 °C</strong> 放氫。</p>
+            </div>
+            <div class="card accent-emerald">
+              <div class="card-title">4. 奈米限域（Nanoconfinement）<span class="badge emerald">防燒結</span></div>
+              <p>將 ~3 nm MgH₂ 嵌入微孔碳骨架使放氫 $E_a$ 降 <strong>52 kJ/mol</strong>、放氫溫由 400 °C 降至 <strong>200 °C</strong>；~13 nm 碳氣凝膠載體速率提升 &gt; 5×（權衡：孔徑越小裝載量越低）。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="s6-doe">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>U.S. DOE 輕型車載儲氫指標</th><th>單位</th><th>2020</th><th>2025</th><th>Ultimate</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>系統重量儲氫容量（材料基準）</td><td class="mono">kg H₂/kg sys (kWh/kg)</td><td class="mono">0.045 (1.5)</td><td class="mono">0.055 (1.8)</td><td class="mono">0.065 (2.2)</td></tr>
+                <tr><td>系統體積儲氫容量（材料基準）</td><td class="mono">kg H₂/L sys (kWh/L)</td><td class="mono">0.030 (1.0)</td><td class="mono">0.040 (1.3)</td><td class="mono">0.050 (1.7)</td></tr>
+                <tr><td>儲氫系統目標成本</td><td class="mono">$/kWh net ($/kg H₂)</td><td class="mono">10 (333)</td><td class="mono">9 (300)</td><td class="mono">8 (266)</td></tr>
+                <tr><td>循環壽命 / 充氣時間 (4–10 kg)</td><td class="mono">cycles / min</td><td class="mono">1,500 / 3–5</td><td class="mono">1,500 / 3–5</td><td class="mono">1,500 / 3–5</td></tr>
+                <tr><td>供氣壓力 / 純度要求</td><td class="mono">bar / %</td><td class="mono">5–12 / 99.97%</td><td class="mono">5–12 / 99.97%</td><td class="mono">5–12 / 99.97%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout warn"><strong>關鍵權衡</strong>：貴金屬（Pd/Pt/Ru）催化與輕質多孔支架（MOF/沸石）成本與自重仍限制系統級目標達標。</div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>金屬氫化物於 PtG 現場暫存僅佔 12%（成本偏高），高壓 350–700 bar 仍為當前緩衝主力</span>
+        <span class="source-tag">Source: [[Hydrogen Energy Economy and Storage Review (2019)]] · [[Hydrogen Storage Technologies and Metal Hydrides]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: POWER-TO-GAS & METHANATION -->
+    <section class="slide" data-title="Power-to-Gas 全鏈效率與催化／生物甲烷化對決">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">06 · Power-to-Gas &amp; Methanation (Götz et al., 2016)</div>
+          <h2 class="slide-title">Power-to-Gas 全鏈效率與催化／生物甲烷化對決</h2>
+        </div>
+        <div class="slide-subtitle">將綠氫甲烷化為 SNG，突破 0–12 vol.% 摻氫限制、直連 &gt;3,600 TWh 天然氣網。</div>
+      </div>
+      <div class="slide-body">
+        <!-- SVG Sankey -->
+        <div class="svg-box" style="padding:10px 14px;">
+          <svg viewBox="0 0 1120 155" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Noto Sans TC, sans-serif">
+            <!-- Main flow bars -->
+            <rect x="16" y="26" width="175" height="92" rx="10" fill="#131f36" stroke="#38bdf8" stroke-width="1.8"/>
+            <text x="103" y="56" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">再生電力輸入</text>
+            <text x="103" y="84" text-anchor="middle" fill="#f8fafc" font-size="22" font-weight="800" font-family="JetBrains Mono">100%</text>
+            <text x="103" y="106" text-anchor="middle" fill="#94a3b8" font-size="11">Wind / PV Surplus</text>
+
+            <!-- Flow 1 -> 2 -->
+            <path d="M 191 58 L 325 58 L 325 88 L 191 88 Z" fill="rgba(56,189,248,0.28)"/>
+            <path d="M 191 88 Q 250 92 268 128 L 245 128 Q 230 100 191 102 Z" fill="rgba(239,68,68,0.28)"/>
+            <text x="258" y="144" text-anchor="middle" fill="#fca5a5" font-size="11">電解廢熱損耗 30%</text>
+
+            <rect x="325" y="26" width="215" height="92" rx="10" fill="#131f36" stroke="#10b981" stroke-width="1.8"/>
+            <text x="432" y="54" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">電解產氫 (25 bar)</text>
+            <text x="432" y="82" text-anchor="middle" fill="#f8fafc" font-size="22" font-weight="800" font-family="JetBrains Mono">70%</text>
+            <text x="432" y="104" text-anchor="middle" fill="#94a3b8" font-size="11">AEL / PEMEL 基準效率</text>
+
+            <!-- Flow 2 -> 3 -->
+            <path d="M 540 58 L 690 58 L 690 83 L 540 83 Z" fill="rgba(16,185,129,0.32)"/>
+            <path d="M 540 83 Q 605 88 625 128 L 602 128 Q 586 96 540 96 Z" fill="rgba(245,158,11,0.35)"/>
+            <text x="615" y="144" text-anchor="middle" fill="#fbbf24" font-size="11">Sabatier 放熱 15%（可回收高溫蒸汽）</text>
+
+            <!-- CO2 Injection arrow -->
+            <rect x="572" y="4" width="102" height="28" rx="6" fill="rgba(245,158,11,0.16)" stroke="#f59e0b" stroke-width="1"/>
+            <text x="623" y="22" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700">+ CO₂ (20 bar)</text>
+            <line x1="623" y1="32" x2="623" y2="56" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="3 2"/>
+
+            <rect x="690" y="26" width="215" height="92" rx="10" fill="#131f36" stroke="#f59e0b" stroke-width="1.8"/>
+            <text x="797" y="54" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">催化甲烷化 (×78%)</text>
+            <text x="797" y="82" text-anchor="middle" fill="#f8fafc" font-size="22" font-weight="800" font-family="JetBrains Mono">55%</text>
+            <text x="797" y="104" text-anchor="middle" fill="#94a3b8" font-size="11">無廢熱整合基準（CO₂ 壓縮 -2%）</text>
+
+            <!-- Flow 3 -> 4 -->
+            <path d="M 905 60 L 950 60 L 950 82 L 905 82 Z" fill="rgba(245,158,11,0.32)"/>
+            <rect x="950" y="26" width="154" height="92" rx="10" fill="#182642" stroke="#38bdf8" stroke-width="1.6"/>
+            <text x="1027" y="58" text-anchor="middle" fill="#38bdf8" font-size="12.5" font-weight="700">SNG 併網</text>
+            <text x="1027" y="80" text-anchor="middle" fill="#f8fafc" font-size="12">&gt; 90% CH₄ (乾基)</text>
+            <text x="1027" y="102" text-anchor="middle" fill="#94a3b8" font-size="11">需 ≥ 98% CO₂ 轉化</text>
+          </svg>
+        </div>
+
+        <div class="eq-box" style="padding:7px 12px;">
+          $$\text{CO}_2\text{(g)} + 4\text{H}_2\text{(g)} \rightleftharpoons \text{CH}_4\text{(g)} + 2\text{H}_2\text{O(g)} \quad (\Delta H_r^0 = -165.1\ \text{kJ/mol}; \ \text{GHSV } 5000\ \text{h}^{-1} \Rightarrow \sim 2\ \text{MW/m}^3\text{ 放熱})$$
+        </div>
+
+        <div class="grid-12">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>指標</th><th>催化：絕熱固定床</th><th>催化：三相漿態床</th><th>生物甲烷化 (CSTR)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>溫壓</td><td class="mono">300–550 °C / &gt;5 bar</td><td class="mono">300–350 °C / ~20 bar</td><td class="mono">20–70 °C / &lt;10 bar</td></tr>
+                <tr><td>空速 GHSV</td><td class="mono"><strong>2,000–5,000 h⁻¹</strong></td><td class="mono">500–1,000 h⁻¹</td><td class="mono">&lt; 10 h⁻¹ (受 H₂ 溶解度限)</td></tr>
+                <tr><td>耐硫 / 雜質</td><td>極低（S ≪ 1 ppm）</td><td>低–中</td><td><strong>高</strong>（耐 H₂S / O₂）</td></tr>
+                <tr><td>動態 / 廢熱</td><td>最低 ~40%；高溫蒸汽</td><td>25–100% 等溫；佳</td><td>可瞬停；&lt;70 °C 差、攪拌耗 10%</td></tr>
+                <tr><td>建議規模</td><td><strong>&gt; 100 MW</strong></td><td>中型廠</td><td>僅小型廠（110 MW 成本 2.5×）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card accent-amber">
+            <div class="card-title">碳源配對與規模效應 <span class="badge amber">Table 7</span></div>
+            <ul>
+              <li><strong>沼氣廠（近中期最佳）</strong>：30–50% CO₂，歐洲 ~15,000 座；典型 10 MW 電解 → 11 MW CH₄，就地消化熱與 O₂。</li>
+              <li><strong>生質氣化（BtG + PtG）</strong>：導入 59.5 MW 電解 H₂ 可省去 WGS，<strong>碳利用率翻倍以上</strong>（CH₄ 由 2,700 → 5,700 m³/h）。</li>
+              <li><strong>大型電廠煙道氣</strong>：300,000 m³/h CO₂ 需高達 <strong>6,000 MW</strong> 電解規模，短期難落地。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>生物法瓶頸：60 °C 下 H₂ 亨利常數 1,408 bar·L/mol 遠高於 CO₂（36 bar·L/mol），氣液傳質受限</span>
+        <span class="source-tag">Source: [[Renewable Power-to-Gas Review (2016)]] · [[Power-to-Gas and Methanation Processes]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: NATURAL GAS HYDRATES -->
+    <section class="slide" data-title="天然氣水合物（NGH）：開採技術與 CO₂ 置換">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">07 · Unconventional Gas &amp; Carbon Loop (Chong et al., 2016)</div>
+          <h2 class="slide-title">天然氣水合物（NGH）：開採技術與 CH₄–CO₂ 置換</h2>
+        </div>
+        <div class="slide-subtitle">全球共識自 20,000 下修至 3,000 TCM（技術可採 ~300 TCM），仍遠超常規天然氣 404 TCM。</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card accent-violet">
+            <div class="card-title">四大原位分解開採法對比 <span class="badge violet">海床 4 °C, 8 MPa</span></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>開採方法</th><th>觸發門檻 / 特徵</th><th>核心優勢與瓶頸</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>降壓法</strong></td><td class="mono">ΔP ≥ 4.2 MPa</td><td><strong>能效最高</strong>、實場主力；單獨降壓速率慢、近井易結冰觸發自我保護（&lt;273.2 K）</td></tr>
+                  <tr><td><strong>熱激法</strong></td><td class="mono">ΔT ≥ 7 K</td><td>高熱通量（255–13,700 W/m²）避開自我保護；井筒熱損大、能效偏低</td></tr>
+                  <tr><td><strong>化學抑制劑</strong></td><td class="mono">~30 wt.% EG</td><td>降低分解熱（熱效率 3.5×）；NaCl 過濃（20 wt.%）堵孔；實場劑量過高不經濟</td></tr>
+                  <tr><td><strong>複合開採</strong></td><td class="mono">Huff-and-Puff / Five-Spot</td><td>五點熱激+降壓能效達單純熱激 <strong>15×</strong>；PHS 吞吐氣水比 $R_{\text{GW}} &gt; 55$</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout warn" style="margin-top:4px;">
+              <strong>關鍵尺度落差</strong>：實驗室小反應釜受限於<strong>傳熱速率</strong>；實場大儲層模擬（TOUGH-Fx/Hydrate）證實<strong>滲透率與流體流動</strong>才是決定性瓶頸。
+            </div>
+          </div>
+
+          <div class="card accent-emerald">
+            <div class="card-title">CH₄–CO₂ 客體置換：碳中和與熱量自持 <span class="badge emerald">採氣 + 封碳</span></div>
+            <div class="eq-box">
+              $$\Delta H_{\text{CO}_2,\text{form}} = -57.98\ \text{kJ/mol} \quad \text{vs.} \quad \Delta H_{\text{CH}_4,\text{diss}} = +54.49\ \text{kJ/mol}$$
+            </div>
+            <ul>
+              <li><strong>四大工程紅利</strong>：&lt;10 °C 下 CO₂ 水合物更穩定（$\Delta G \approx -12\ \text{kJ/mol}$ 理想 MD）；反應放熱足以支撐吸熱分解；大幅減產水（MRI 證實）；新生成 CO₂ 水合物可替代原骨架維持海床力學強度（純 CH₄ 水合物強度為冰的 &gt;20 倍）。</li>
+              <li><strong>最大瓶頸——固相擴散阻礙</strong>：表面生成混合水合物殼層（$D_{\text{CO}_2} = 10^{-12}\ \text{m}^2/\text{s}$ @ 273 K），使未加熱實驗室回收率普遍 <strong>&lt; 40%</strong>（對照理論極限 64%）。</li>
+              <li><strong>突破方向</strong>：液態 CO₂ 優於氣態（氣態僅適合 Class I 儲層）；95 °C 超臨界 CO₂ 44 h 達 <strong>40.7%</strong>；固結 Bentheim 砂岩 MRI 達 <strong>50–60%</strong>。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>純 CH₄ 水合物熱導率 0.5–0.65 W/(m·K)（近水而非冰 2.14）；高飽和砂層儲層具最高商業價值</span>
+        <span class="source-tag">Source: [[Review of Natural Gas Hydrates as an Energy Resource (2016)]] · [[Conventional NGH Dissociation Methods]] · [[CH4-CO2 Hydrate Exchange Process]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: GLOBAL FIELD TRIALS (EMPHASIS) -->
+    <section class="slide" data-title="全球指標實場試驗與示範專案全景（重點頁）">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">08 · Global Field Trials &amp; Demonstrations (Key Focus)</div>
+          <h2 class="slide-title">全球指標實場試驗與示範專案全景</h2>
+        </div>
+        <div class="slide-subtitle">從 NGH 產氣量 3 個數量級躍升，到 MW 級 PtG 與百 MW 級電網儲能實測。</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-21">
+          <div class="chart-box">
+            <canvas id="nghTrialChart"></canvas>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="tabs" id="trialFilterTabs">
+              <button class="tab-btn active" data-filter="all">全部專案</button>
+              <button class="tab-btn" data-filter="ngh">NGH 現場試驗</button>
+              <button class="tab-btn" data-filter="ptg">PtG 示範廠</button>
+              <button class="tab-btn" data-filter="ees">EES / 氫能實場</button>
+            </div>
+            <div class="table-wrap" style="max-height:245px; overflow-y:auto;">
+              <table id="trialTable">
+                <thead>
+                  <tr><th>類別</th><th>場址 / 專案</th><th>規模與實測數據</th><th>關鍵工程啟示</th></tr>
+                </thead>
+                <tbody>
+                  <tr data-cat="ngh"><td><span class="badge violet">NGH</span></td><td><strong>Nankai Trough (日, 2013)</strong></td><td class="mono">6 days · 120,000 m³</td><td>全球首座海域降壓；日產 ~20,000 m³/d（較 Mallik 高一數量級），因出砂停機</td></tr>
+                  <tr data-cat="ngh"><td><span class="badge violet">NGH</span></td><td><strong>Ignik Sikumi (美, 2012)</strong></td><td class="mono">~6 weeks · 24,085 m³</td><td>注入 23% CO₂/77% N₂ 煙道氣；回採 70% N₂ 但僅 40% CO₂（<strong>60% CO₂ 封存</strong>）</td></tr>
+                  <tr data-cat="ngh"><td><span class="badge violet">NGH</span></td><td><strong>Mallik (加, 2002–2008)</strong></td><td class="mono">熱激 516 → 降壓 13,000 m³</td><td>2007–08 降壓至 4.5 MPa，日產 2–3k m³；後期因導流通道塌陷衰減</td></tr>
+                  <tr data-cat="ngh"><td><span class="badge violet">NGH</span></td><td><strong>Messoyakha (俄, 1969–)</strong></td><td class="mono">宣稱 5.4×10⁹ m³ 水合物氣</td><td><strong>爭議</strong>：產水量比理論低 ≥3 數量級，學界質疑實際水合物貢獻</td></tr>
+                  <tr data-cat="ptg"><td><span class="badge amber">PtG</span></td><td><strong>Audi e-gas (德 Werlte, 2013)</strong></td><td class="mono">6 MW el. AEL + 沼氣 CO₂</td><td>發表時全球最大 PtG 廠；冷卻固定床催化甲烷化</td></tr>
+                  <tr data-cat="ptg"><td><span class="badge amber">PtG</span></td><td><strong>DemoSNG / BioCat (歐盟/丹麥)</strong></td><td class="mono">BtG 蜂巢反應器 / 1 MW BM</td><td>驗證生質氣化耦合與 MW 級生物甲烷化可行性</td></tr>
+                  <tr data-cat="ees"><td><span class="badge cyan">EES</span></td><td><strong>Huntorf / McIntosh / ADELE</strong></td><td class="mono">290 MW / 110 MW / 90 MW AA</td><td>CAES 可靠度 91.2–99.5%；愛荷華 270 MW 砂岩案因流率不足取消</td></tr>
+                  <tr data-cat="ees"><td><span class="badge cyan">EES</span></td><td><strong>Rokkasho / AES / Beacon</strong></td><td class="mono">34 MW NaS / 32 MW Li / 20 MW 飛輪</td><td>風電平滑與調頻已實證；Beacon 供紐約州約 10% 調頻</td></tr>
+                  <tr data-cat="ees"><td><span class="badge emerald">H₂</span></td><td><strong>Utsira (挪威) / HyUnder (羅馬尼亞)</strong></td><td class="mono">風電氫能島 / 鹽穴季儲</td><td>驗證獨立再生氫能系統與鹽穴跨季儲氫供複循環電廠</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="callout good">
+          <strong>NGH 實場核心診斷</strong>：除 Ignik Sikumi 置換持續 6 週外，其餘降壓／熱激試驗均未超過 <strong>6 天</strong>；技術瓶頸不在「能不能產氣」，而在於能否克服<strong>出砂與產水管理</strong>以維持長期穩產。
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>點擊上方按鈕可依領域篩選實場紀錄；左圖顯示 NGH 試驗累積產氣量呈數量級躍升</span>
+        <span class="source-tag">Source: [[NGH Field Trials and Commercialization Comparison]] · [[Integrated Energy Storage, Hydrogen, PtG and NGH Commercialization Comparison]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: COMMERCIALIZATION ECONOMICS (EMPHASIS) -->
+    <section class="slide" data-title="商業化經濟分析與三大成本悖論（重點頁）">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">09 · Commercialization Economics (Key Focus)</div>
+          <h2 class="slide-title">商業化經濟分析與三大成本悖論</h2>
+        </div>
+        <div class="slide-subtitle">在 2–3 ct/kWh 天然氣基準下，純能源套利難具競爭力，須靠系統協同降本。</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-12">
+          <div class="chart-box tall">
+            <canvas id="econChart"></canvas>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div class="card accent-amber">
+              <div class="card-title">1. PtG「高 FLH vs. 低電價」悖論 <span class="badge amber">Götz 2016</span></div>
+              <ul>
+                <li><strong>滿載時數槓桿</strong>：FLH 從 1,200 增至 3,000 h/a，SNG 成本可<strong>腰斬約 50%</strong>（攤提 800–3,000 €/kW 電解 CAPEX）；但僅靠免費棄電無法撐高 FLH。</li>
+                <li><strong>動態甲烷化降本</strong>：36 MW 風電案由穩態改 40–100% 動態操作，暫存儲氫槽減半（1,700 → 850 m³），總 CAPEX 降 <strong>8%</strong>（38.8 → 35.8 M€）。</li>
+                <li><strong>副產價值</strong>：售出 O₂（10–70 €/t）降本 1.3–2 ct/kWh；CO₂ 每 100 €/t 增本 2 ct/kWh。</li>
+              </ul>
+            </div>
+            <div class="card accent-violet">
+              <div class="card-title">2. NGH 成本邊界與「以氣補碳」協同 <span class="badge violet">Chong 2016</span></div>
+              <ul>
+                <li><strong>生產成本（Table 1）</strong>：NGH <strong>4.65–9.08 USD/Mbtu</strong>（對照常規 0.53–6.02 / 2–9、頁岩氣 3–9.08）。</li>
+                <li><strong>損益兩平氣價（Walsh 2009）</strong>：陸上具自由氣室 <strong>$CDN₂₀₀₅ 7.50/Mscf</strong>，無氣室跳升至 <strong>12.00/Mscf</strong>；海域比常規海域高 <strong>+$USD₂₀₀₈ 3.50–4.00/Mscf</strong>。</li>
+                <li><strong>CCS 降本紅利</strong>：傳統捕集耗費 <strong>US$ 50–75/t</strong>（燃煤）或 <strong>35–46/t</strong>（IGCC）；直接注入煙道氣置換 NGH 可省捕集費並以 CH₄ 收益補貼封碳。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>枯竭氣藏水合物封碳 1,000 天儲量可達原位 CH₄ 的 &gt;9 倍；螺旋管注入模式可提升儲碳容量 100%</span>
+        <span class="source-tag">Source: [[NGH Field Trials and Commercialization Comparison]] · [[Renewable Power-to-Gas Review (2016)]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: RISKS & ROADMAP -->
+    <section class="slide" data-title="工程紅線、風險治理與 2030+ 商業化路線圖">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">10 · Risk Governance &amp; Commercialization Roadmap</div>
+          <h2 class="slide-title">工程落地紅線、環境風險與 2030+ 商業化路線圖</h2>
+        </div>
+        <div class="slide-subtitle">NGH 無「技術死胡同」，但須跨越長週期穩產、地質力學與市場制度門檻。</div>
+      </div>
+      <div class="slide-body">
+        <!-- SVG Roadmap -->
+        <div class="svg-box" style="padding:10px 14px;">
+          <svg viewBox="0 0 1120 150" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Noto Sans TC, sans-serif">
+            <line x1="60" y1="64" x2="1060" y2="64" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+            <line x1="60" y1="64" x2="430" y2="64" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+            <line x1="430" y1="64" x2="770" y2="64" stroke="#f59e0b" stroke-width="4" stroke-dasharray="8 6"/>
+            <line x1="770" y1="64" x2="1060" y2="64" stroke="#10b981" stroke-width="4" stroke-dasharray="8 6"/>
+
+            <!-- Node 1 -->
+            <circle cx="120" cy="64" r="10" fill="#070d19" stroke="#38bdf8" stroke-width="3.5"/>
+            <text x="120" y="34" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="800" font-family="JetBrains Mono">2012–2015</text>
+            <text x="120" y="96" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="700">短期實場里程碑</text>
+            <text x="120" y="114" text-anchor="middle" fill="#94a3b8" font-size="10.5">Ignik Sikumi · Nankai (6d)</text>
+            <text x="120" y="130" text-anchor="middle" fill="#94a3b8" font-size="10.5">Audi e-gas 6 MW · ADELE</text>
+
+            <!-- Node 2 -->
+            <circle cx="430" cy="64" r="10" fill="#070d19" stroke="#38bdf8" stroke-width="3.5"/>
+            <text x="430" y="34" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="800" font-family="JetBrains Mono">2020–2025</text>
+            <text x="430" y="96" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="700">長週期穩產與降本驗證</text>
+            <text x="430" y="114" text-anchor="middle" fill="#fbbf24" font-size="10.5">NGH 門檻：20k–30k m³/d × 2 月</text>
+            <text x="430" y="130" text-anchor="middle" fill="#94a3b8" font-size="10.5">PEMEL 降本 · DOE 儲氫目標</text>
+
+            <!-- Node 3 -->
+            <circle cx="745" cy="64" r="10" fill="#070d19" stroke="#f59e0b" stroke-width="3.5"/>
+            <text x="745" y="34" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="800" font-family="JetBrains Mono">2025–2030</text>
+            <text x="745" y="96" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="700">陸上小型商轉與百 MW PtG</text>
+            <text x="745" y="114" text-anchor="middle" fill="#94a3b8" font-size="10.5">美／加陸上 NGH 首批商轉</text>
+            <text x="745" y="130" text-anchor="middle" fill="#94a3b8" font-size="10.5">SOEC 1,000 €/kW · 催化 130 €/kW</text>
+
+            <!-- Node 4 -->
+            <circle cx="1015" cy="64" r="10" fill="#070d19" stroke="#10b981" stroke-width="3.5"/>
+            <text x="1015" y="34" text-anchor="middle" fill="#10b981" font-size="13" font-weight="800" font-family="JetBrains Mono">2030+</text>
+            <text x="1015" y="96" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="700">海域規模化與跨部門耦合</text>
+            <text x="1015" y="114" text-anchor="middle" fill="#94a3b8" font-size="10.5">亞洲（日／中／韓）海域 NGH</text>
+            <text x="1015" y="130" text-anchor="middle" fill="#94a3b8" font-size="10.5">PtG-SNG 7.2–10.2 ct/kWh (2050)</text>
+          </svg>
+        </div>
+
+        <div class="grid-2">
+          <div class="card accent-red">
+            <div class="card-title">環境與地質力學風險治理 <span class="badge red">JOGMEC 四大框架</span></div>
+            <ul>
+              <li><strong>籠形槍假說辨析</strong>：CH₄ 百年 GWP 約為 CO₂ 的 <strong>21 倍</strong>，但易受暖化觸發的是<strong>淺層非經濟水合物</strong>，深層高飽和砂層反而不敏感。</li>
+              <li><strong>海床沉降與圍壓效應</strong>：含水合物沉積物強度於圍壓 <strong>5 MPa</strong> 達峰後因顆粒壓碎下降；分解後強度低於純砂，易致出砂與滑坡。</li>
+              <li><strong>JOGMEC 四方向</strong>：地質認知、甲烷／產水擴散模擬、海域原位監測、完整 EIA 管理體系。</li>
+            </ul>
+          </div>
+          <div class="card accent-emerald">
+            <div class="card-title">跨五篇論文：商業化四大決勝槓桿 <span class="badge emerald">Synthesis</span></div>
+            <ul>
+              <li><strong>1. 多尺度技術分工</strong>：EES 穩電網 + 綠氫／PtG 跨季節，避免錯配時間尺度。</li>
+              <li><strong>2. 完整系統邊界</strong>：納入純化／壓縮（HydS）、O&amp;M 壽命（EES）與副產 O₂／廢熱（PtG）。</li>
+              <li><strong>3. CO₂ 價值化閉環</strong>：NGH 煙道氣置換與 PtG 沼氣／生質氣化大幅改善經濟性。</li>
+              <li><strong>4. 宏觀制度定價</strong>：計入電網擴建延緩、調頻輔助服務、碳權與能源安全價值。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Döpke &amp; Requate (2014)：NGH 最佳開採路徑取決於資源衰減率、海底滑坡外部性與政策工具</span>
+        <span class="source-tag">Source: [[Hydrate-Bearing Sediment Geomechanics]] · [[NGH Field Trials and Commercialization Comparison]]</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: REFERENCES & WIKI TRACEABILITY -->
+    <section class="slide" data-title="參考文獻與 Obsidian Wiki 知識溯源">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow">11 · References &amp; Knowledge Graph Traceability</div>
+          <h2 class="slide-title">參考文獻與 Obsidian LLM Wiki 知識溯源</h2>
+        </div>
+        <div class="slide-subtitle">本簡報所有數據、方程式與比較均嚴格取自以下 5 篇原始綜述與 17 篇 Wiki 筆記。</div>
+      </div>
+      <div class="slide-body">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>論文書目與 DOI</th><th>對應 Wiki Source 筆記</th><th>核心貢獻維度</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">01</td>
+                <td>X. Luo, J. Wang, M. Dooner, J. Clarke, <em>Applied Energy</em> 137 (2015) 511–536 · <span class="mono">10.1016/j.apenergy.2014.09.081</span></td>
+                <td class="mono">[[Overview of Electrical Energy Storage Technologies (2015)]]</td>
+                <td>六大 EES 分類、21 項電網應用、季節儲能空白</td>
+              </tr>
+              <tr>
+                <td class="mono">02</td>
+                <td>Z.R. Chong, S.H.B. Yang, P. Babu, P. Linga, X.-S. Li, <em>Applied Energy</em> 162 (2016) 1633–1652 · <span class="mono">10.1016/j.apenergy.2014.12.061</span></td>
+                <td class="mono">[[Review of Natural Gas Hydrates as an Energy Resource (2016)]]</td>
+                <td>NGH 資源、四大開採法、CO₂ 置換、全球實場與經濟</td>
+              </tr>
+              <tr>
+                <td class="mono">03</td>
+                <td>M. Götz et al., <em>Renewable Energy</em> 85 (2016) 1371–1390 · <span class="mono">10.1016/j.renene.2015.07.066</span></td>
+                <td class="mono">[[Renewable Power-to-Gas Review (2016)]]</td>
+                <td>PtG-SNG 全鏈 55%、電解與催化／生物甲烷化、SNG 經濟</td>
+              </tr>
+              <tr>
+                <td class="mono">04</td>
+                <td>J.O. Abe, A.P.I. Popoola, E. Ajenifuja, O.M. Popoola, <em>IJHE</em> 44 (2019) 15072–15086 · <span class="mono">10.1016/j.ijhydene.2019.04.068</span></td>
+                <td class="mono">[[Hydrogen Energy Economy and Storage Review (2019)]]</td>
+                <td>物理 vs. 固態儲氫、MgH₂ 四大改質策略、DOE 目標</td>
+              </tr>
+              <tr>
+                <td class="mono">05</td>
+                <td>F. Dawood, M. Anda, G.M. Shafiullah, <em>IJHE</em> 45 (2020) 3847–3869 · <span class="mono">10.1016/j.ijhydene.2019.12.059</span></td>
+                <td class="mono">[[Hydrogen Production for Energy Overview (2020)]]</td>
+                <td>HydS 模型、TML 1–10、ISO 14687-2 純度標準與 HCI</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid-3">
+          <div class="card accent-cyan">
+            <div class="card-title">Concepts (5)</div>
+            <p class="mono" style="font-size:11.5px; line-height:1.7;">
+              [[Electrical Energy Storage (EES) Classification]]<br/>
+              [[Hydrogen Cleanness Index and Purity Standards]]<br/>
+              [[Natural Gas Hydrates (NGH)]]<br/>
+              [[Self-Preservation Phenomenon]]<br/>
+              [[Hydrate-Bearing Sediment Geomechanics]]
+            </p>
+          </div>
+          <div class="card accent-emerald">
+            <div class="card-title">Methods (5)</div>
+            <p class="mono" style="font-size:11.5px; line-height:1.7;">
+              [[Water Electrolysis Technologies (AEL, PEM, SOEC)]]<br/>
+              [[Hydrogen Storage Technologies and Metal Hydrides]]<br/>
+              [[Power-to-Gas and Methanation Processes]]<br/>
+              [[Conventional NGH Dissociation Methods]]<br/>
+              [[CH4-CO2 Hydrate Exchange Process]]
+            </p>
+          </div>
+          <div class="card accent-amber">
+            <div class="card-title">Synthesis (2)</div>
+            <p class="mono" style="font-size:11.5px; line-height:1.7;">
+              [[NGH Field Trials and Commercialization Comparison]]<br/>
+              [[Integrated Energy Storage, Hydrogen, PtG and NGH Commercialization Comparison]]
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Compiled from Energy Engineering &amp; Power Technology LLM Wiki · 2026-11-21</span>
+        <span class="source-tag">Vault: D:\Antigravity\Wiki obsidian\LLM Wiki</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-btn" id="prevBtn">← 上一頁</button>
+    <span class="kbd-hint">← / → / Space · T 目錄 · F 全螢幕</span>
+    <button class="nav-btn" id="nextBtn">下一頁 →</button>
+  </nav>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const total = slides.length;
+      let current = 0;
+
+      const progressFill = document.getElementById('progressFill');
+      const pageCounter = document.getElementById('pageCounter');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const tocDrawer = document.getElementById('tocDrawer');
+      const tocBackdrop = document.getElementById('tocBackdrop');
+      const tocList = document.getElementById('tocList');
+      const tocToggleBtn = document.getElementById('tocToggleBtn');
+      const tocCloseBtn = document.getElementById('tocCloseBtn');
+      const fsBtn = document.getElementById('fsBtn');
+
+      // Build TOC
+      slides.forEach((slide, idx) => {
+        const li = document.createElement('li');
+        li.className = 'toc-item' + (idx === 0 ? ' active' : '');
+        li.innerHTML = `<span class="toc-num">${String(idx + 1).padStart(2, '0')}</span><span>${slide.dataset.title || 'Slide ' + (idx + 1)}</span>`;
+        li.addEventListener('click', () => {
+          goTo(idx);
+          toggleTOC(false);
+        });
+        tocList.appendChild(li);
+      });
+
+      const tocItems = Array.from(tocList.querySelectorAll('.toc-item'));
+
+      function goTo(index) {
+        if (index < 0 || index >= total) return;
+        slides[current].classList.remove('active');
+        tocItems[current].classList.remove('active');
+        current = index;
+        slides[current].classList.add('active');
+        tocItems[current].classList.add('active');
+        updateUI();
+      }
+
+      function updateUI() {
+        const pct = ((current + 1) / total) * 100;
+        progressFill.style.width = pct + '%';
+        pageCounter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+      }
+
+      function toggleTOC(force) {
+        const open = typeof force === 'boolean' ? force : !tocDrawer.classList.contains('open');
+        tocDrawer.classList.toggle('open', open);
+        tocBackdrop.classList.toggle('open', open);
+      }
+
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+      tocToggleBtn.addEventListener('click', () => toggleTOC());
+      tocCloseBtn.addEventListener('click', () => toggleTOC(false));
+      tocBackdrop.addEventListener('click', () => toggleTOC(false));
+
+      fsBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          goTo(current + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          goTo(current - 1);
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          goTo(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          goTo(total - 1);
+        } else if (e.key === 't' || e.key === 'T') {
+          toggleTOC();
+        } else if (e.key === 'Escape') {
+          toggleTOC(false);
+        } else if (e.key === 'f' || e.key === 'F') {
+          fsBtn.click();
+        }
+      });
+
+      // Interactive Tabs inside slides
+      document.querySelectorAll('.tabs[data-tab-group]').forEach((group) => {
+        const buttons = group.querySelectorAll('.tab-btn');
+        const parentSlide = group.closest('.slide-body');
+        buttons.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            buttons.forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            const targetId = btn.dataset.tab;
+            parentSlide.querySelectorAll('.tab-panel').forEach((p) => {
+              p.classList.toggle('active', p.id === targetId);
+            });
+          });
+        });
+      });
+
+      // Slide 9 Field Trial Filter
+      const filterTabs = document.getElementById('trialFilterTabs');
+      if (filterTabs) {
+        const filterBtns = filterTabs.querySelectorAll('.tab-btn');
+        const rows = document.querySelectorAll('#trialTable tbody tr');
+        filterBtns.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            filterBtns.forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            const cat = btn.dataset.filter;
+            rows.forEach((row) => {
+              row.style.display = (cat === 'all' || row.dataset.cat === cat) ? '' : 'none';
+            });
+          });
+        });
+      }
+
+      // Render KaTeX when ready
+      window.addEventListener('load', () => {
+        if (typeof renderMathInElement === 'function') {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '$', right: '$', display: false }
+            ],
+            throwOnError: false
+          });
+        }
+        initCharts();
+      });
+
+      function initCharts() {
+        if (typeof Chart === 'undefined') return;
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Inter', 'Noto Sans TC', sans-serif";
+
+        // Chart 1 (Slide 3): EES Round-Trip Efficiency (%) Midpoint & Range from Luo et al. (2015)
+        const eesCtx = document.getElementById('eesChart');
+        if (eesCtx) {
+          const eesRanges = [
+            '95–98% (能量成本 500–72,000 $/kWh)',
+            '84–97% (能量成本 300–2,000+ $/kWh)',
+            '90–95% (能量成本 1,000–14,000 $/kWh)',
+            '75–97% (能量成本 600–3,800 $/kWh)',
+            '75–90% (能量成本 300–500 $/kWh)',
+            '70–85% (能量成本 5–100 $/kWh)',
+            '65–85% (能量成本 150–1,000 $/kWh)',
+            '42–54% (AA-CAES ~70%; 2–120 $/kWh)',
+            '20–50% (能量成本 2–15 €/kWh)'
+          ];
+          new Chart(eesCtx, {
+            type: 'bar',
+            data: {
+              labels: ['SMES', '超級電容', '飛輪 FES', '鋰離子電池', '鈉硫 NaS', '抽蓄 PHS', '全釩液流 VRB', '大型 CAES', '氫氣燃料電池'],
+              datasets: [{
+                label: '典型往返循環效率中位值 (%)',
+                data: [96.5, 90.5, 92.5, 86, 82.5, 77.5, 75, 48, 35],
+                backgroundColor: [
+                  'rgba(56,189,248,0.75)', 'rgba(56,189,248,0.75)', 'rgba(56,189,248,0.75)',
+                  'rgba(16,185,129,0.75)', 'rgba(16,185,129,0.75)', 'rgba(167,139,250,0.75)',
+                  'rgba(16,185,129,0.75)', 'rgba(245,158,11,0.75)', 'rgba(239,68,68,0.75)'
+                ],
+                borderColor: [
+                  '#38bdf8', '#38bdf8', '#38bdf8', '#10b981', '#10b981', '#a78bfa', '#10b981', '#f59e0b', '#ef4444'
+                ],
+                borderWidth: 1.5,
+                borderRadius: 6
+              }]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                title: { display: true, text: 'EES 各技術往返循環效率對比 (%, Luo et al., 2015)', color: '#f8fafc', font: { size: 13, weight: '700' } },
+                tooltip: {
+                  callbacks: {
+                    afterLabel: (ctx) => '文獻區間：' + eesRanges[ctx.dataIndex]
+                  }
+                }
+              },
+              scales: {
+                x: { min: 0, max: 100, grid: { color: 'rgba(148,163,184,0.12)' }, ticks: { callback: v => v + '%' } },
+                y: { grid: { display: false }, ticks: { color: '#e2e8f0', font: { size: 11.5 } } }
+              }
+            }
+          });
+        }
+
+        // Chart 2 (Slide 9): NGH Field Trials Cumulative Gas Production (Log scale or Linear with clear labels)
+        const nghCtx = document.getElementById('nghTrialChart');
+        if (nghCtx) {
+          new Chart(nghCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Mallik 2002\n(熱激 5d)', 'Mallik 2007\n(降壓 12.5h)', 'Mallik 2007-08\n(降壓 139h)', 'Ignik Sikumi 2012\n(CO₂置換 6wk)', 'Nankai 2013\n(海域降壓 6d)'],
+              datasets: [{
+                label: '累積產氣量 (m³)',
+                data: [516, 830, 13000, 24085, 120000],
+                backgroundColor: [
+                  'rgba(148,163,184,0.55)',
+                  'rgba(56,189,248,0.55)',
+                  'rgba(56,189,248,0.8)',
+                  'rgba(16,185,129,0.8)',
+                  'rgba(167,139,250,0.85)'
+                ],
+                borderColor: ['#94a3b8', '#38bdf8', '#38bdf8', '#10b981', '#a78bfa'],
+                borderWidth: 1.5,
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                title: { display: true, text: '全球 NGH 現場試驗累積產氣量 (m³, Chong et al., 2016 Table 2)', color: '#f8fafc', font: { size: 12.5, weight: '700' } }
+              },
+              scales: {
+                y: {
+                  type: 'logarithmic',
+                  min: 100,
+                  max: 200000,
+                  grid: { color: 'rgba(148,163,184,0.12)' },
+                  ticks: { color: '#94a3b8', callback: (v) => [100, 1000, 10000, 100000].includes(v) ? v.toLocaleString() : '' }
+                },
+                x: { grid: { display: false }, ticks: { color: '#e2e8f0', font: { size: 10.5 } } }
+              }
+            }
+          });
+        }
+
+        // Chart 3 (Slide 10): SNG vs Natural Gas vs Biomethane Production Cost (ct/kWh, Götz et al., 2016)
+        const econCtx = document.getElementById('econChart');
+        if (econCtx) {
+          new Chart(econCtx, {
+            type: 'bar',
+            data: {
+              labels: [
+                '常規天然氣基準',
+                '生質甲烷基準',
+                'PtG-SNG (2050 預測)',
+                'PtG-SNG (3,000 h/a, 5ct 電)',
+                'PtG-SNG (1,200 h/a, 5ct 電)',
+                'PtG-SNG (褐煤電廠 1,200 h/a)'
+              ],
+              datasets: [
+                {
+                  label: '下限成本 (ct/kWh)',
+                  data: [2, 7, 7.2, 13.5, 27, 60],
+                  backgroundColor: 'rgba(56,189,248,0.75)',
+                  borderColor: '#38bdf8',
+                  borderWidth: 1.5,
+                  borderRadius: 5
+                },
+                {
+                  label: '上限成本 (ct/kWh)',
+                  data: [3, 7, 10.2, 17, 30, 90],
+                  backgroundColor: 'rgba(245,158,11,0.7)',
+                  borderColor: '#f59e0b',
+                  borderWidth: 1.5,
+                  borderRadius: 5
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                title: { display: true, text: '氣態燃料與 PtG-SNG 生產成本對比 (ct/kWh, Götz et al., 2016 Table 9)', color: '#f8fafc', font: { size: 12.5, weight: '700' } },
+                legend: { labels: { color: '#cbd5e1', font: { size: 11.5 } } }
+              },
+              scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(148,163,184,0.12)' }, title: { display: true, text: 'ct / kWh (SNG)', color: '#94a3b8' } },
+                x: { grid: { display: false }, ticks: { color: '#e2e8f0', font: { size: 10.5 } } }
+              }
+            }
+          });
+        }
+      }
+
+      updateUI();
+    })();
+  </script>
+</body>
+</html>
